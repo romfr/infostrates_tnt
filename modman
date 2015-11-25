@@ -10,8 +10,8 @@ app/design/frontend/base/default/template/tnt app/design/frontend/base/default/t
 
 media/pdf_bt media/pdf_bt
 
-skin/frontend/default/default/css/tnt skin/frontend/default/default/css/tnt
-skin/frontend/default/default/images/tnt skin/frontend/default/default/images/tnt
-skin/frontend/default/default/js/tnt skin/frontend/default/default/js/tnt
-skin/frontend/default/default/tnt_relaisColis.php skin/frontend/default/default/tnt_relaisColis.php
-skin/frontend/default/default/tnt_suiviColis.php skin/frontend/default/default/tnt_suiviColis.php
+skin/frontend/base/default/css/tnt skin/frontend/base/default/css/tnt
+skin/frontend/base/default/images/tnt skin/frontend/base/default/images/tnt
+skin/frontend/base/default/js/tnt skin/frontend/base/default/js/tnt
+skin/frontend/base/default/tnt_relaisColis.php skin/frontend/base/default/tnt_relaisColis.php
+skin/frontend/base/default/tnt_suiviColis.php skin/frontend/base/default/tnt_suiviColis.php
