@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-
 <config>
     <sections>
         <carriers>
-            <groups>                
+            <groups> 
                 <tnt translate="label" module="usa">
                     <label>TNT Express</label>
                     <frontend_type>text</frontend_type>
@@ -20,7 +19,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </active>                        
+                        </active>
                         <gateway_url translate="label">
                             <label>Gateway URL</label>
                             <frontend_type>text</frontend_type>
@@ -41,7 +40,7 @@
                         </tracking_url>
                         <account translate="label comment">
                             <label>Numéro de compte client TNT</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -51,7 +50,7 @@
                         </account>
                         <identifiant translate="label comment">
                             <label>Identifiant MyTNT</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -61,7 +60,7 @@
                         </identifiant>
                         <mdp translate="label comment">
                             <label>Mot de passe MyTNT</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -70,7 +69,7 @@
                         </mdp>
                         <raison_sociale translate="label comment">
                             <label>Raison sociale</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -79,7 +78,7 @@
                         </raison_sociale>
                         <adresse translate="label comment">
                             <label>Adresse d'expédition</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -88,15 +87,15 @@
                         </adresse>
                         <adresse2 translate="label comment">
                             <label>Complément d'adresse d'expédition</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>                            
+                            <show_in_store>0</show_in_store>
                         </adresse2>
                         <code_postal translate="label comment">
                             <label>Code postal</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>9</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -105,15 +104,15 @@
                         </code_postal>
                         <ville translate="label comment">
                             <label>Ville</label>
-                            <frontend_type>text</frontend_type>                            
+                            <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <validate>required-entry</validate>
-                        </ville>                        
+                        </ville>
                         <label_format>
-                        	<label>Format d'étiquette</label>
+                            <label>Format d'étiquette</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tnt/shipping_carrier_tnt_source_labelformat</source_model>
                             <sort_order>16</sort_order>
@@ -122,17 +121,17 @@
                             <show_in_store>0</show_in_store>
                         </label_format>
                         <tnt_max_weight>
-                        	<label>Poids maximum pour TNT</label>
+                            <label>Poids maximum pour TNT</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tnt/shipping_carrier_tnt_source_tntmaxweight</source_model>
                             <sort_order>17</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>                            
+                            <show_in_store>0</show_in_store>
                             <comment>Au dessus de ce poids les produits TNT de seront pas proposés au client</comment>
                         </tnt_max_weight>
-		                <JZ_amount>
-                        	<label>TNT 24h à Domicile</label>
+                        <JZ_amount>
+                            <label>TNT 24h à Domicile</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>23</sort_order>
                             <show_in_default>1</show_in_default>
@@ -142,18 +141,18 @@
                             <comment>Soit un montant unique ex : 15.99. Soit au format poids panier/prix ex : 10:23.90,20:52.30,1000:99. Soit au format montant panier/prix ex : 20€:5.90,40€:9.90,150€:15.90</comment>
                         </JZ_amount>
                         <JZ_free>
-                        	<label>Minimum d'achat pour TNT 24h à Domicile offert</label>
-                            <frontend_type>text</frontend_type>                            
+                            <label>Minimum d'achat pour TNT 24h à Domicile offert</label>
+                            <frontend_type>text</frontend_type>
                             <sort_order>24</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <validate>required-entry</validate>
-							<comment>ex : 150</comment>
+                            <comment>ex : 150</comment>
                         </JZ_free>
-		                <J_amount>
-                        	<label>TNT 24h Entreprise</label>
-                            <frontend_type>text</frontend_type>                            
+                        <J_amount>
+                            <label>TNT 24h Entreprise</label>
+                            <frontend_type>text</frontend_type>
                             <sort_order>31</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -162,17 +161,17 @@
                             <comment>Soit un montant unique ex : 15.99. Soit au format poids panier/prix ex : 10:23.90,20:52.30,1000:99. Soit au format montant panier/prix ex : 20€:5.90,40€:9.90,150€:15.90</comment>
                         </J_amount>
                         <J_free>
-                        	<label>Minimum d'achat pour TNT 24h Entreprise offert</label>
+                            <label>Minimum d'achat pour TNT 24h Entreprise offert</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>32</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <validate>required-entry</validate>
-                            <comment>ex : 150</comment>                            
+                            <comment>ex : 150</comment>
                         </J_free>
                         <JD_amount>
-                        	<label>TNT 24h en Relais Colis®</label>
+                            <label>TNT 24h en Relais Colis®</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>33</sort_order>
                             <show_in_default>1</show_in_default>
@@ -182,7 +181,7 @@
                             <comment>Soit un montant unique ex : 15.99. Soit au format poids panier/prix ex : 10:23.90,20:52.30,1000:99. Soit au format montant panier/prix ex : 20€:5.90,40€:9.90,150€:15.90</comment>
                         </JD_amount>
                         <JD_free>
-                        	<label>Minimum d'achat pour TNT 24h en Relais Colis® offert</label>
+                            <label>Minimum d'achat pour TNT 24h en Relais Colis® offert</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>34</sort_order>
                             <show_in_default>1</show_in_default>
@@ -192,22 +191,22 @@
                             <comment>ex : 150</comment>
                         </JD_free>
                         <corse_amount>
-                        	<label>Supplément pour les envois vers la Corse</label>
+                            <label>Supplément pour les envois vers la Corse</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <validate>required-entry</validate>                            
+                            <validate>required-entry</validate>
                         </corse_amount>
                         <corse_free>
-                        	<label>Minimum d'achat pour supplément pour les envois vers la Corse offert</label>
+                            <label>Minimum d'achat pour supplément pour les envois vers la Corse offert</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>36</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <validate>required-entry</validate>                            
+                            <validate>required-entry</validate>
                         </corse_free>
                         <specificerrmsg translate="label">
                             <label>Displayed Error Message</label>
@@ -217,7 +216,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <validate>required-entry</validate>
-                        </specificerrmsg>                        
+                        </specificerrmsg>
                         <showmethod translate="label">
                             <label>Show Method if Not Applicable</label>
                             <frontend_type>select</frontend_type>
@@ -246,7 +245,7 @@
                             <show_in_store>0</show_in_store>
                         </sort_order>
                     </fields>
-                </tnt>                
+                </tnt>
             </groups>
         </carriers>
     </sections>

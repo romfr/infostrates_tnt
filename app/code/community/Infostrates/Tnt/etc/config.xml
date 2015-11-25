@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
-
 <config>
     <modules>
         <Infostrates_Tnt>
             <version>3.0.14</version>
             <depends>
-				<Mage_Adminhtml />
-				<Mage_Shipping />
-			</depends>
+                <Mage_Adminhtml />
+                <Mage_Shipping />
+            </depends>
         </Infostrates_Tnt>
     </modules>
     <global>
@@ -18,8 +17,8 @@
                     <class>Infostrates_Tnt_Model_Resource_Mysql4_Setup</class>
                 </setup>
                 <connection>
-            		<use>core_setup</use>
-        		</connection>                
+                    <use>core_setup</use>
+                </connection> 
             </tnt_setup>
             <tnt_write>
                 <connection>
@@ -34,14 +33,14 @@
         </resources>
         <blocks>
             <tnt>
-            	<class>Infostrates_Tnt_Block</class>
+                <class>Infostrates_Tnt_Block</class>
             </tnt>
             <adminhtml>
-				<rewrite>										
-					<sales_order_shipment_view>Infostrates_Tnt_Block_Sales_Order_Shipment_View</sales_order_shipment_view>
-				</rewrite>
-			</adminhtml>
-        </blocks>                
+                <rewrite>
+                    <sales_order_shipment_view>Infostrates_Tnt_Block_Sales_Order_Shipment_View</sales_order_shipment_view>
+                </rewrite>
+            </adminhtml>
+        </blocks>
         <helpers>
             <tnt>
                 <class>Infostrates_Tnt_Helper</class>
@@ -50,36 +49,36 @@
         <models>
             <tnt>
                 <class>Infostrates_Tnt_Model</class>
-            </tnt>            
+            </tnt>
         </models>
         <sales>
             <shipping>
                 <carriers>
                     <tnt>
                         <class>Infostrates_Tnt_Model_Shipping_Carrier_Tnt</class>
-                    </tnt>                    
+                    </tnt>
                 </carriers>
-            </shipping>            
+            </shipping>
         </sales>
-		<fieldsets>
-			<sales_copy_order_billing_address>
-				<tnt_infos_comp><to_order>*</to_order></tnt_infos_comp>
+        <fieldsets>
+            <sales_copy_order_billing_address>
+                <tnt_infos_comp><to_order>*</to_order></tnt_infos_comp>
             </sales_copy_order_billing_address>
             <sales_copy_order_shipping_address>
-				<tnt_infos_comp><to_order>*</to_order></tnt_infos_comp>
+                <tnt_infos_comp><to_order>*</to_order></tnt_infos_comp>
             </sales_copy_order_shipping_address>
-			<sales_convert_quote_address>
-				<tnt_infos_comp><to_order_address>*</to_order_address><to_customer_address>*</to_customer_address></tnt_infos_comp>        
+            <sales_convert_quote_address>
+                <tnt_infos_comp><to_order_address>*</to_order_address><to_customer_address>*</to_customer_address></tnt_infos_comp>        
             </sales_convert_quote_address>
-			<sales_convert_order_address>
-				<tnt_infos_comp><to_quote_address>*</to_quote_address></tnt_infos_comp>
-			</sales_convert_order_address>
-			<customer_address>
-				<tnt_infos_comp><to_quote_address>*</to_quote_address></tnt_infos_comp>
+            <sales_convert_order_address>
+                <tnt_infos_comp><to_quote_address>*</to_quote_address></tnt_infos_comp>
+            </sales_convert_order_address>
+            <customer_address>
+                <tnt_infos_comp><to_quote_address>*</to_quote_address></tnt_infos_comp>
             </customer_address>
         </fieldsets>
     </global>
-    <adminhtml>    	
+    <adminhtml>
         <menu>
             <sales translate="title" module="tnt">
                 <title>Sales</title>
@@ -89,60 +88,60 @@
                     <tnt translate="title" module="sales">
                         <title>TNT</title>
                         <sort_order>31</sort_order>
-						<children>
-							<impression translate="title" module="sales">
-								<title>Suivi des expéditions TNT</title>
-								<action>adminhtml/infostratesTnt_sales_impression</action>
-								<sort_order>10</sort_order>
-							</impression>
-						</children>
+                        <children>
+                            <impression translate="title" module="sales">
+                                <title>Suivi des expéditions TNT</title>
+                                <action>adminhtml/infostratesTnt_sales_impression</action>
+                                <sort_order>10</sort_order>
+                            </impression>
+                        </children>
                     </tnt>
-				</children>
-			</sales>
-		</menu>
-		<acl>
-			<resources>
-				<admin>
-					<children>
-						<sales translate="title" module="sales">
-							<title>Sales</title>
-							<sort_order>20</sort_order>
-							<children>
-								<tnt translate="title" module="sales">
-									<title>TNT</title>
-									<sort_order>31</sort_order>
-									<children>
-										<impression translate="title" module="sales">
-											<title>Suivi des expéditions TNT</title>
-											<sort_order>10</sort_order>
-										</impression>
-									</children>
-								</tnt>
-							</children>
-						</sales>
-					</children>
-				</admin>
-			</resources>
-		</acl>		
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <sales translate="title" module="sales">
+                            <title>Sales</title>
+                            <sort_order>20</sort_order>
+                            <children>
+                                <tnt translate="title" module="sales">
+                                    <title>TNT</title>
+                                    <sort_order>31</sort_order>
+                                    <children>
+                                        <impression translate="title" module="sales">
+                                            <title>Suivi des expéditions TNT</title>
+                                            <sort_order>10</sort_order>
+                                        </impression>
+                                    </children>
+                                </tnt>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
     <stores>
-		<admin>
-			<design>
-				<theme>
-					<default>tnt</default>
-				</theme>
-			</design>
-		</admin>
-	</stores>
+        <admin>
+            <design>
+                <theme>
+                    <default>tnt</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
     <admin>
         <routers>
             <adminhtml>
-				<args>
-					<modules>
-						<tnt before="Mage_Adminhtml">Infostrates_Tnt_Adminhtml</tnt>
-					</modules>
-				</args>
-			</adminhtml>
+                <args>
+                    <modules>
+                        <tnt before="Mage_Adminhtml">Infostrates_Tnt_Adminhtml</tnt>
+                    </modules>
+                </args>
+            </adminhtml>
             <customer>
                 <args>
                     <modules>
@@ -153,7 +152,7 @@
         </routers>
     </admin>
     <frontend>
-    	<layout>
+        <layout>
             <updates>
                 <tnt module="Infostrates_Tnt">
                     <file>tnt.xml</file>
@@ -161,14 +160,14 @@
             </updates>
         </layout>
         <routers>
-	    	<tnt>
-	        <use>standard</use>
-	        <args>
-	        	<module>Infostrates_Tnt</module>
-	        	<frontName>tnt</frontName>
-	        	</args>
-	    	</tnt>
-	    </routers>
+            <tnt>
+            <use>standard</use>
+            <args>
+                <module>Infostrates_Tnt</module>
+                <frontName>tnt</frontName>
+                </args>
+            </tnt>
+        </routers>
         <translate>
             <modules>
                 <Infostrates_Tnt>
@@ -179,25 +178,24 @@
             </modules>
         </translate>
     </frontend>
-
     <default>
-        <carriers>            
-            <tnt>                
-                <active>0</active>                                          
+        <carriers>
+            <tnt>
+                <active>0</active>
                 <label_format>STDA4</label_format>
-                <tracking_url>http://www.tnt.fr/public/suivi_colis/recherche/visubontransport.do?bonTransport=</tracking_url>                
+                <tracking_url>http://www.tnt.fr/public/suivi_colis/recherche/visubontransport.do?bonTransport=</tracking_url>
                 <tnt_max_weight>60</tnt_max_weight>
                 <J_amount>10:23.90,20:52.30,1000:99</J_amount>
                 <JZ_amount>10:23.90,20:52.30,1000:99</JZ_amount>
-                <JD_amount>10:23.90,20:52.30,1000:99</JD_amount>                
-                <J_free>0</J_free>                
+                <JD_amount>10:23.90,20:52.30,1000:99</JD_amount>
+                <J_free>0</J_free>
                 <JZ_free>0</JZ_free>
                 <JD_free>0</JD_free>
                 <corse_amount>19</corse_amount>
-                <corse_free>0</corse_free>                
-                <model>tnt/shipping_carrier_tnt</model>                
-                <specificerrmsg>Ce mode d'expédition n'est pas disponible. Si vous souhaitez l'utiliser contactez nous.</specificerrmsg>                
-            </tnt>            
+                <corse_free>0</corse_free>
+                <model>tnt/shipping_carrier_tnt</model>
+                <specificerrmsg>Ce mode d'expédition n'est pas disponible. Si vous souhaitez l'utiliser contactez nous.</specificerrmsg>
+            </tnt>
         </carriers>
     </default>
 </config>
