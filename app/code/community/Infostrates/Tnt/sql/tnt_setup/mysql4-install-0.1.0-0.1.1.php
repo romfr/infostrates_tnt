@@ -1,4 +1,5 @@
 <?php
+
 $installer = $this;
 $installer->startSetup();
 
@@ -13,4 +14,3 @@ ALTER TABLE {$installer->getTable('sales_flat_order_address')} ADD `tnt_infos_co
 ");
 
 $installer->endSetup();
-?>

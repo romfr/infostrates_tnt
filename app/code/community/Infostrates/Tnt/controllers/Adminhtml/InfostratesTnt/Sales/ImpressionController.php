@@ -1,9 +1,9 @@
 <?php
+
 class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Additional initialization
-     *
+     * Additional initialization.
      */
     protected function _construct()
     {
@@ -11,7 +11,7 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
     }
 
     /**
-     * Shipping grid
+     * Shipping grid.
      */
     public function indexAction()
     {
@@ -24,6 +24,7 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
     public function getConfigData($field)
     {
         $path = 'carriers/tnt/'.$field;
+
         return Mage::getStoreConfig($path, Mage::app()->getStore());
     }
 
@@ -33,8 +34,8 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
 
         $helper->setResource($resource, $resourceType);
 
-        $fileName       = $helper->getFilename();
-        $contentType    = $helper->getContentType();
+        $fileName = $helper->getFilename();
+        $contentType = $helper->getContentType();
 
         $this->getResponse()
             ->setHttpResponseCode(200)
@@ -49,7 +50,7 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
 
         if ($contentDisposition = $helper->getContentDisposition()) {
             $this->getResponse()
-                ->setHeader('Content-Disposition', $contentDisposition . '; filename='.$fileName);
+                ->setHeader('Content-Disposition', $contentDisposition.'; filename='.$fileName);
         }
 
         $this->getResponse()
@@ -63,38 +64,35 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
     protected function getEtiquetteUrl($shipmentsIds)
     {
         //On récupère les infos d'expédition
-        if (is_array($shipmentsIds))
-        {
+        if (is_array($shipmentsIds)) {
             $path = Mage::getBaseDir('media').'/pdf_bt/';
             $pdfDocs = array();
-            
-            for ($i = 0; $i < count($shipmentsIds); $i++)
-            {
+
+            for ($i = 0; $i < count($shipmentsIds); ++$i) {
                 $shipmentId = Mage::getModel('sales/order_shipment_track')->load($shipmentsIds[$i])->getParentId();
-                $orderNum = Mage::getModel('sales/order_shipment')->load($shipmentId)->getOrder()->getRealOrderId();                
+                $orderNum = Mage::getModel('sales/order_shipment')->load($shipmentId)->getOrder()->getRealOrderId();
 
                 // Array of the pdf files need to be merged
                 $pdfDocs[] = $path.$orderNum.'.pdf';
             }
-            
-            $filename = $path."tnt_pdf.pdf";
-            
+
+            $filename = $path.'tnt_pdf.pdf';
+
             $cmd = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=$filename ";
             //Add each pdf file to the end of the command
-            for($i=0; $i<count($pdfDocs);$i++) {
-                $cmd .= $pdfDocs[$i]." ";
+            for ($i = 0; $i < count($pdfDocs);++$i) {
+                $cmd .= $pdfDocs[$i].' ';
             }
             $result = shell_exec($cmd);
-            $filename = "tnt_pdf.pdf";
-        }
-        else
-        {
+            $filename = 'tnt_pdf.pdf';
+        } else {
             $shipmentId = $shipmentsIds;
-            
+
             $orderNum = Mage::getModel('sales/order_shipment')->load($shipmentId)->getOrder()->getRealOrderId();
-            
+
             $filename = $orderNum.'.pdf';
         };
+
         return $filename;
     }
 
@@ -102,7 +100,7 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
     {
         $path = Mage::getBaseUrl('media').'pdf_bt/';
         $shipmentsIds = $this->getRequest()->getPost('shipment_ids');
-        
+
         try {
             $filename = $this->getEtiquetteUrl($shipmentsIds);
 
@@ -111,6 +109,7 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError(Mage::helper('tnt')->__('Impossible de récupérer les BT : '.$filename));
         }
+
         return $this->_redirectReferer();
     }
 
@@ -121,13 +120,13 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
 
         try {
             $filename = $this->getEtiquetteUrl($shipmentId);
-             
+
             $this->_processDownload($path.$filename, 'url');
             exit(0);
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError(Mage::helper('tnt')->__('Impossible de récupérer le BT : '.$filename));
         }
+
         return $this->_redirectReferer();
     }
-    
 }

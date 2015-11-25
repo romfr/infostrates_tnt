@@ -10,11 +10,11 @@
 	</head>	
 
 	<body>	
-    	<?php if( isset($_GET['cp']) ) {
-        	$cp_origin = $_GET['cp'];
-		} else {
-			$cp_origin = '';
-		} ?> 
+    	<?php if (isset($_GET['cp'])) {
+    $cp_origin = $_GET['cp'];
+} else {
+    $cp_origin = '';
+} ?> 
 		
         <input type="hidden" id="cp_origin" name="cp_origin" value="<?php echo $cp_origin; ?>" />
         
@@ -40,15 +40,21 @@
 		<script type="text/javascript" src="js/tnt/jquery-ui.js"></script>
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 		
-<?php 	if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {			
-			if (intval(substr($_SERVER['HTTP_USER_AGENT'], strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')+5)) <= 8) { ?>
+<?php     if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
+        if (intval(substr($_SERVER['HTTP_USER_AGENT'], strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') + 5)) <= 8) {
+            ?>
 		<script type="text/javascript" src="js/tnt/relaisColisIE7.js"></script>
-<?php 		} else { ?>
+<?php 
+        } else {
+            ?>
 		<script type="text/javascript" src="js/tnt/relaisColis.js"></script>
-<?php 		} 
-		} else { ?>
+<?php 
+        }
+    } else {
+        ?>
 		<script type="text/javascript" src="js/tnt/relaisColis.js"></script>
-<?php 	} ?>		
+<?php 
+    } ?>		
 		
 		<script type="text/javascript" src="js/tnt/jquery.superbox.js"></script>
 

@@ -1,7 +1,7 @@
 <?php
+
 class Infostrates_Tnt_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -11,7 +11,7 @@ class Infostrates_Tnt_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Wid
     }
 
     /**
-     * Retrieve collection class
+     * Retrieve collection class.
      *
      * @return string
      */
@@ -23,42 +23,43 @@ class Infostrates_Tnt_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel($this->_getCollectionClass());
-        
+
         $collection->distinct(true);
         $collection->getSelect()->columns(array('shipment_created_at' => 'main_table.created_at'));
         $collection->getSelect()->join(array('ost' => $collection->getTable('sales/shipment_track')), 'main_table.entity_id = ost.parent_id');
         $collection->addFieldToFilter('ost.carrier_code', array('like' => 'tnt%'));
         $collection->getSelect()->group('main_table.entity_id');
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
-        
+
         /* Bug Magento : le GROUP BY ne retourne pas le bon nombre d'enregistrement la correction se trouve dans /local/Varien/Data/Collection/Db.php -> getSelectCountSql */
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('sales')->__('Shipment #'),
-            'index'     => 'increment_id',
-            'type'      => 'text',
+            'header' => Mage::helper('sales')->__('Shipment #'),
+            'index' => 'increment_id',
+            'type' => 'text',
         ));
 
         $this->addColumn('shipment_created_at', array(
-            'header'    => Mage::helper('sales')->__('Date Shipped'),
-            'index'     => 'shipment_created_at',
-            'type'      => 'datetime',
+            'header' => Mage::helper('sales')->__('Date Shipped'),
+            'index' => 'shipment_created_at',
+            'type' => 'datetime',
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header'    => Mage::helper('sales')->__('Order #'),
-            'index'     => 'order_increment_id',
-            'type'      => 'number',
+            'header' => Mage::helper('sales')->__('Order #'),
+            'index' => 'order_increment_id',
+            'type' => 'number',
         ));
 
         $this->addColumn('order_created_at', array(
-            'header'    => Mage::helper('sales')->__('Order Date'),
-            'index'     => 'order_created_at',
-            'type'      => 'datetime',
+            'header' => Mage::helper('sales')->__('Order Date'),
+            'index' => 'order_created_at',
+            'type' => 'datetime',
         ));
 
         $this->addColumn('shipping_name', array(
@@ -69,7 +70,7 @@ class Infostrates_Tnt_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('total_qty', array(
             'header' => Mage::helper('sales')->__('Total Qty'),
             'index' => 'total_qty',
-            'type'  => 'number',
+            'type' => 'number',
         ));
 
         return parent::_prepareColumns();
@@ -90,8 +91,8 @@ class Infostrates_Tnt_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Wid
 
         // Impression des étiquettes
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-             'label'=> Mage::helper('sales')->__('Imprimer les étiquettes'),
-             'url'  => $this->getUrl('tnt/sales_impression/printMass'),
+             'label' => Mage::helper('sales')->__('Imprimer les étiquettes'),
+             'url' => $this->getUrl('tnt/sales_impression/printMass'),
         ));
 
         return $this;

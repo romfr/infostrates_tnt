@@ -1,4 +1,5 @@
 <?php
+
 $installer = $this;
 $installer->startSetup();
 
@@ -7,4 +8,3 @@ INSERT INTO {$installer->getTable('core/config_data')} (path,value) VALUES ('car
 UPDATE {$installer->getTable('core/config_data')} SET path = 'carriers/tnt/max_package_weight', value = '30' WHERE path = 'carriers/tnt/max_package_weight';");
 
 $installer->endSetup();
-?>
