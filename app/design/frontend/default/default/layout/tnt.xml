@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">			
+			<action method="addItem"><type>skin_js</type><script>js/tnt/jquery_162.js</script></action>
+			<action method="addItem"><type>skin_js</type><script>js/tnt/tnt.js</script></action>
+			<action method="addItem"><type>skin_js</type><script>js/tnt/jquery.superbox.js</script></action>
+			<action method="addItem"><type>skin_css</type><name>css/tnt/tnt.css</name><params/></action>
+			<action method="addItem"><type>skin_css</type><name>css/tnt/jquery.superbox.css</name><params/></action>			
+        </reference>
+	</default>
+	
+	<checkout_onepage_index>
+		<reference name="checkout.onepage.shipping_method">
+			<action method="setTemplate"><template>tnt/onepage/shipping_method.phtml</template></action>
+			<block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="tnt/onepage/shipping_method/available.phtml" />
+		</reference>
+	</checkout_onepage_index>
+	
+    <checkout_onepage_shippingmethod>
+        <remove name="right"/>
+        <remove name="left"/>
+        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="tnt/onepage/shipping_method/available.phtml" />
+    </checkout_onepage_shippingmethod>
+	
+	<sales_order_view translate="label">
+        <label>Customer My Account Order View</label>
+        <!--update handle="customer_account"/-->
+        <reference name="my.account.wrapper">
+            <block type="sales/order_info" as="info" name="sales.order.info" template="tnt/sales/order/info.phtml"/>
+            <block type="sales/order_view" name="sales.order.view" template="tnt/sales/order/view.phtml">
+                <block type="sales/order_items" name="order_items" template="sales/order/items.phtml">
+                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <block type="sales/order_totals" name="order_totals" template="sales/order/totals.phtml">
+                        <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
+                        <action method="setValueProperties"><value>class="last a-right"</value></action>
+                        <block type="tax/sales_order_tax" name="tax" template="tax/order/tax.phtml" />
+                    </block>
+                </block>
+            </block>
+        </reference>
+        <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
+    </sales_order_view>
+</layout>

@@ -1,0 +1,39 @@
+.one-page-checkout .active .box-no-padding{ padding:15px 20px;}
+.one-page-checkout .active .box-no-padding dt{ clear:both;}
+
+#tnt_cp { padding-left:25px; margin-top:10px; font-size:12px; }
+#tnt_pr_choix { font-weight:bold; color:green; }
+#tnt_pr .input-box{ float:left; margin-right:20px; }
+
+#checkout-shipping-method-load dd{padding:0 0 10px; }
+
+#tnt_pr #suggestion{overflow:hidden;padding:10px 0 10px 10px; clear:both;}
+#tnt_pr #suggestion input{ vertical-align:top; margin-top:1px; float:left; clear:both;}
+#tnt_pr #suggestion label{ float:left; font-size: 11px; }
+#tnt_pr #suggestion label .s1{ display:inline-block; width:500px;padding:0 10px 0 0;float:left;}
+#tnt_pr #suggestion label .s2{display:inline-block; width:50px;float:left;}
+#tnt_pr #suggestion label a{ float:left;}
+
+.moreInfos { font-style: italic; font-size: 10px; }
+.tnt_description { font-size: 10px; margin-top: 5px; margin-bottom: 10px; width: 600px; }
+.tnt_description .rem1 { font-style: italic; }
+
+#comp_domicile span, #comp_entreprise span {
+	font-weight: bold;
+}
+
+.clr-left {
+	clear:left;
+}
+
+#comp_domicile div label, #comp_domicile div input, #comp_domicile div span {
+	float:left;
+	width:30%;
+}
+#comp_domicile div input {
+	margin-right:20px;
+}
+#comp_domicile div span, #comp_entreprise div span {
+	font-weight: normal;
+	font-size: 10px;
+}

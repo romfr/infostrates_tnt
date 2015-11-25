@@ -1,0 +1,215 @@
+	<script type="text/javascript">
+	jQuery(function(){		
+		jQuery.superbox.settings = {
+			    boxId: "superbox",
+			    boxClasses: "",
+			    overlayOpacity: 0.8,
+			    boxWidth: "900",
+			    boxHeight: "530",
+			    loadTxt: "Chargement ...",
+			    closeTxt: "Fermer",
+			    prevTxt: "Précédent",
+			    nextTxt: "Suivant"
+			};
+		jQuery.superbox();
+	});
+
+	function fenetreCent(url,nom,largeur,hauteur,options) {
+		var haut=(screen.height-hauteur)/2;
+		var Gauche=(screen.width-largeur)/2;
+		fencent=window.open(url,nom,"top="+haut+",left="+Gauche+",width="+largeur+",height="+hauteur+","+options);
+	}
+
+	var lastPrice='';
+	</script>
+	
+<?php $_shippingRateGroups = $this->getShippingRates(); ?>
+<?php if (!$_shippingRateGroups): ?>
+    <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+<?php else: ?>
+    <dl class="sp-methods">
+<?php 	$shippingCodePrice = array(); ?>
+<?php 	$_sole = count($_shippingRateGroups) == 1; 
+		$quote = Mage::getSingleton('checkout/session')->getQuote();
+		
+    	foreach ($_shippingRateGroups as $code => $_rates): ?>
+        <dt><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+        <dd>
+            <ul>
+<?php 		$_sole = $_sole && count($_rates) == 1; 
+
+            foreach ($_rates as $_rate): ?>
+                <?php $shippingCodePrice[] = "'".$_rate->getCode()."':".(float)$_rate->getPrice(); ?>
+                <li>
+                   <?php if ($_rate->getErrorMessage()): ?>
+                    <ul class="messages"><li class="error-msg"><ul><li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li></ul></li></ul>
+                   <?php else: ?>
+<?php             		if( preg_match('/tnt_/', $_rate->getCode()) == 0 ) { ?>                   
+                        <?php if ($_sole) : ?>
+                        <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+                        <?php else: ?>
+                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/>
+
+                        <?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
+                        <script type="text/javascript">
+                            //<![CDATA[
+                                lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+                            //]]>
+                        </script>
+                        <?php endif; ?>
+
+                        <?php endif; ?>
+                        <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <?php endif; ?>
+                        </label>
+<?php 					} ?>
+
+<?php 					//je filtre les envois TNT vers les entreprises si le champ company n'est pas renseigné 
+                        if( (($_rate->getCode() == 'tnt_AZ' || $_rate->getCode() == 'tnt_TZ' || $_rate->getCode() == 'tnt_MZ' || $_rate->getCode() == 'tnt_JZ')
+                         && $quote->getShippingAddress()->getCompany() == '') 
+                        || (($_rate->getCode() == 'tnt_A' || $_rate->getCode() == 'tnt_T' || $_rate->getCode() == 'tnt_M' || $_rate->getCode() == 'tnt_J')
+                         && $quote->getShippingAddress()->getCompany() != '' )
+                        || $_rate->getCode() == 'tnt_JD' ) { ?>
+                        
+
+                        <?php if ($_sole) : ?>
+                        <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+                        <?php else: ?>
+                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" class="radio" onClick="radioCheck()" />
+                        
+                        <?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
+                        <script type="text/javascript">
+                            //<![CDATA[
+                                lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+                            //]]>
+                        </script>
+                        <?php endif; ?>
+                        
+                        <?php endif; ?>
+                        <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <?php endif; ?>
+                        </label>
+<?php                   if($_rate->getMethodDescription() != '') {
+							$tmp_desc = explode('|||', $_rate->getMethodDescription());
+						} ?>
+                        <div id="tnt_description_<?php echo $_rate->getCode(); ?>" style="display:block;" class="tnt_description">
+                        	<img src="<?php echo $this->getSkinUrl("images/tnt/".$tmp_desc['2']); ?>" alt="<?php echo $_rate->getMethodTitle() ?>" style="float:left;margin-right:10px;" />
+                        	<span>
+                        		<?php echo $tmp_desc['0']; ?>
+<?php 							if( $tmp_desc['1'] != '' ) { ?>
+						&nbsp;<a href="<?php echo $this->getSkinUrl($tmp_desc['1']); ?>" rel="superbox[image]" class="moreInfos">+ d'infos</a>
+<?php 							} ?>
+                        	</span>
+                        	<div style="clear:both;"></div>
+                        	
+<?php 						if( $_rate->getCode() != 'tnt_JD' ) { 
+								$telephone = $quote->getShippingAddress()->getTelephone();
+								$telephone = str_replace(' ', '', $telephone);
+								$telephone = str_replace('-', '', $telephone);
+								$telephone = str_replace('.', '', $telephone);
+								$telephone = str_replace('/', '', $telephone);
+								$telephone = str_replace('+33', '0', $telephone);
+						
+								$style_tel = "block";		
+								if( substr($telephone, 0, 2) == '06' || substr($telephone, 0, 2) == '07' ) {
+									$style_tel = "none";
+						    	} else {
+						    		$telephone = '';
+						    	} ?>            
+							<div id="tnt_cp" style="display:none" >
+								<div id="villes"></div>
+								<div id="comp_domicile" style="display:none">
+									<span>Pour assurer une livraison dans les meilleures conditions, merci de renseigner les champs ci-dessous qui vous concernent.</span>
+									<div class="clr-left" style="display:<?php echo $style_tel; ?>;"><label>Téléphone portable :</label> <input type="text" id="portable" name="portable" maxlength="10" value="<?php echo $telephone; ?>" /> <span>Ex : 0602030405</span></div>
+									<div class="clr-left"><label>Code porte :</label> <input type="text" id="code" name="code" maxlength="7" /><span>Ex : A8120</span></div>
+									<div class="clr-left"><label>Etage :</label> <input type="text" id="etage" name="etage" maxlength="2" /><span>Ex : 4</span></div>
+									<div class="clr-left"><label>Bâtiment :</label> <input type="text" id="batiment" name="batiment" maxlength="3" /><span>Ex : B37</span></div>
+									<div class="clr-left"></div>
+								</div>
+								<div id="comp_entreprise" style="display:none">
+									<span>Pour assurer une livraison dans les meilleures conditions, merci de renseigner les champs ci-dessous qui vous concernent.</span>
+									<div class="clr-left">
+										<label>Instruction complémentaire de livraison :</label>
+										<br />
+										<textarea rows="3" cols="45" name="compl" id="compl" onkeyup="this.value = this.value.slice(0, 60)" onchange="this.value = this.value.slice(0, 60)"></textarea>
+										<br />
+										<span>(60 caractères maximum)<br />
+										Ex : Déposer le colis au comptoir d'accueil de l'entreprise</span>
+									</div>
+								</div>
+								<div class="input-box">		
+									<input id="street" name="street" type="hidden" value="<?php echo $quote->getShippingAddress()->getStreetFull(); ?>"/>
+									<input id="zipcode" name="zipcode" type="hidden" value="<?php echo $quote->getShippingAddress()->getPostcode(); ?>"/>
+									<input id="city" name="city" type="hidden" value="<?php echo $quote->getShippingAddress()->getCity(); ?>"/>
+									<input id="company" name="company" type="hidden" value="<?php echo $quote->getShippingAddress()->getcompany(); ?>"/>		
+									<input id="city_url" name="city_url" type="hidden" value="<?php echo substr(Mage::getUrl('tnt/tnt/ville'),0,-1); ?>"/>
+								</div>
+							    <span id="loadingvilleswait" style="display:none;">
+							    	<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Vérification des informations...') ?>
+							    </span>
+							</div>
+<?php 						} ?>
+                        </div>
+<?php 					} ?>
+
+<?php          			if($_rate->getCode() == 'tnt_JD') { ?>
+						<input name="tnt_relais" type="hidden" id="tnt_relais1" class="radio" value="" />
+                        <div id="tnt_pr" style="display:none">
+<?php						if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
+								if (intval(substr($_SERVER['HTTP_USER_AGENT'], strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')+5)) <= 8) { ?>
+							<a href="javascript:fenetreCent('<?php echo Mage::getBaseUrl ('skin');  ?>/frontend/default/default/tnt_relaisColis.php?cp=<?php echo $quote->getShippingAddress()->getPostcode(); ?>', 'popup_tnt' ,'900', '530','scrollbars=no,location:no,menubar=no,status=no,resizable=no');" onclick="javascript:fenetreCent('<?php echo Mage::getBaseUrl ('skin');  ?>/frontend/default/default/tnt_relaisColis.php?cp=<?php echo $quote->getShippingAddress()->getPostcode(); ?>', 'popup_tnt' ,'900', '530','scrollbars=no,location:no,menubar=no,status=no,resizable=no');" id="openRelais">Choisissez votre Relais Colis®</a>
+<?php 							} else { ?>
+							<a href="<?php echo Mage::getBaseUrl ('skin');  ?>/frontend/default/default/tnt_relaisColis.php?cp=<?php echo $quote->getShippingAddress()->getPostcode(); ?>" rel="superbox[iframe]" id="openRelais">Choisissez votre Relais Colis®</a>
+<?php 							}
+							} else { ?>                        
+                        	<a href="<?php echo Mage::getBaseUrl ('skin');  ?>/frontend/default/default/tnt_relaisColis.php?cp=<?php echo $quote->getShippingAddress()->getPostcode(); ?>" rel="superbox[iframe]" id="openRelais">Choisissez votre Relais Colis®</a>
+<?php 						} ?>
+                        </div>
+                        <div id="tnt_pr_choix" style="display:none"></div>
+<?php                   } ?>                        
+                   <?php endif ?>
+                </li>
+<?php 		endforeach; ?>
+            </ul>
+        </dd>
+<?php 	endforeach; ?>
+    </dl>
+<script type="text/javascript">
+//<![CDATA[
+    <?php if (!empty($shippingCodePrice)): ?>
+        var shippingCodePrice = {<?php echo implode(',',$shippingCodePrice); ?>};
+    <?php endif; ?>
+
+    $$('input[type="radio"][name="shipping_method"]').each(function(el){
+        Event.observe(el, 'click', function(){
+            if (el.checked == true) {
+                var getShippingCode = el.getValue();
+                <?php if (!empty($shippingCodePrice)): ?>
+                    var newPrice = shippingCodePrice[getShippingCode];
+                    if (!lastPrice) {
+                        lastPrice = newPrice;
+                        quoteBaseGrandTotal += newPrice;
+                    }
+                    if (newPrice != lastPrice) {
+                        quoteBaseGrandTotal += (newPrice-lastPrice);
+                        lastPrice = newPrice;
+                    }
+                <?php endif; ?>
+                checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+                return false;
+            }
+       });
+    });
+//]]>
+</script>
+<?php endif; ?>

@@ -1,0 +1,161 @@
+<form id="edit_form" method="post" action="<?php echo $this->getSaveUrl() ?>">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <?php  $_order = $this->getShipment()->getOrder(); ?>
+	<?php $_shippingMethod = explode("_",$_order->getShippingMethod()); ?>
+    <?php echo $this->getChildHtml('order_info') ?>
+
+
+    <div class="box-left">
+        <!--Billing Address-->
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('sales')->__('Payment Information') ?></h4>
+            </div>
+            <fieldset>
+                <div><?php echo $this->getPaymentHtml() ?></div>
+                <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="box-right">
+        <!--Shipping Address-->
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('sales')->__('Shipping Information') ?></h4>
+            </div>
+            <fieldset>
+                <div>
+                    <strong><?php echo $_order->getShippingDescription() ?></strong>
+                    <?php echo $this->helper('sales')->__('Total Shipping Charges'); ?>:
+
+                    <?php if ($this->helper('tax')->displayShippingPriceIncludingTax()): ?>
+                        <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
+                    <?php else: ?>
+                        <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                    <?php endif; ?>
+                    <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
+
+                    <?php echo $_excl; ?>
+                    <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                    <?php endif; ?>
+                </div>
+                <?php Mage::Log($_shippingMethod[0]); ?>
+                
+                <?php
+                $corse = '0';
+                $entreprise = '0';
+                $checkCP = substr($_order->getShippingAddress()->getPostcode(),0,3); 
+                if( $checkCP == '200' || $checkCP == '201' || $checkCP == '202' ) {
+                	$corse = '1';
+                }
+                if($_shippingMethod[1] == 'A' || $_shippingMethod[1] == 'T' || $_shippingMethod[1] == 'M' || $_shippingMethod[1] == 'J') {
+                	$entreprise = '1';
+                } ?>
+                
+				<?php if (($_shippingMethod[0] == 'tnt')) :
+                        if( $entreprise == '1' ) { $poidsMaxColis = '30'; } else { $poidsMaxColis = '20'; }
+                        $reste = $orderPoids = round($_order->getWeight(),2);
+                        $nbColis = $orderPoids/$poidsMaxColis; //nb de colis
+
+                        if( is_float($nbColis) ) {
+                            $nbColis = ceil($nbColis); //nb de colis arrondi
+                        } ?>
+					<div><?php echo $this->helper('tnt')->__('Le numéro de tracking TNT sera ajouté automatiquement'); ?></div>
+					<div><label><?php echo $this->helper('tnt')->__("Date d'expédition"); ?></label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="shippingDate" name="shippingDate" value="<?php echo date('d-m-Y'); ?>" class="input-text" />&nbsp;<img title="Date d'exédition" id="sd_trig" alt="" src="<?php echo $this->getSkinUrl('images/grid-cal.gif'); ?>" style="cursor: pointer; height: 15px; vertical-align: middle; width: 15px;" /></div>
+					<div><label><?php echo $this->helper('tnt')->__('Nombre de colis à expédier'); ?></label>&nbsp;&nbsp;&nbsp;&nbsp;<select id="nb_colis" name="nb_colis" onchange="createColis();"><?php for($i=$nbColis;$i<=10;$i++) { ?><option value="<?php echo $i; ?>" <?php if( $i == $nbColis ) { ?>selected="selected" <?php } ?>><?php echo $i; ?></option><?php } ?></select>&nbsp;&nbsp;<strong>Poids de l'expédition : <?php echo $orderPoids; ?> kg</strong></div>
+                    <input type="hidden" id="orderPoids" name="orderPoids" value="<?php echo $orderPoids; ?>" />
+                    <input type="hidden" id="maxPoids" name="maxPoids" value="<?php echo $poidsMaxColis; ?>" />
+                    <div id="createColis">
+                        <?php for($c=1; $c<=$nbColis; $c++) {
+                                //if( $c == $nbColis ) { $poidsColis = $reste; } else { $poidsColis = $poidsMaxColis; $reste-= $poidsColis; } ?>
+                        Poids colis <?php echo $c; ?> : <input type="text" name="colis<?php echo $c; ?>" value="<?php if($nbColis==1) { echo $orderPoids; } ?>" class="colis" /><br />
+                        <?php } ?>
+                    </div>
+<?php 				if( $entreprise == '1' ) { ?>
+					<div><i>* le poids de chaque colis ne doit pas dépasser 30 kg</i></div>
+<?php 				} else { ?>
+					<div><i>* le poids de chaque colis ne doit pas dépasser 20 kg</i></div>
+<?php 				} ?>
+					
+					<script type="text/javascript">
+					//<![CDATA[
+					Calendar.setup({
+						inputField: "shippingDate",
+						ifFormat: "%d-%m-%Y",
+						showsTime: false,
+						button: "sd_trig",
+						align: "Bl",
+						singleClick : true
+					});
+
+					function checkNbColis() { //plus utile
+						if($("nb_colis").value > 99) {
+							alert('Attention, la livraison de plus de 4 colis engendre un coût supplémentaire.');
+						}
+					}
+
+                    function createColis() {
+                        $('createColis').empty();
+                        var inputs = "";
+                        for( var c=1; c<=$("nb_colis").value;c++ ) {
+                            inputs = inputs+"Poids colis "+c+" : <input type='text' name='colis"+c+"' value='' class='colis' /><br />";
+                        }
+                        $('createColis').update(inputs);
+
+                        checkNbColis();
+                    }
+
+					function checkSamedi(date) {													
+						var maDate = date.split("-");
+						var laDate = new Date(maDate[2], maDate[1]-1, maDate[0]);
+
+						if( laDate.getDay() == "5" ) {							
+							return true;
+						}
+						return false;
+					}
+					
+					document.observe('dom:loaded', function() {		
+						var message = "";
+						var corse = <?php echo $corse; ?>;
+						var entreprise = <?php echo $entreprise; ?>;
+	
+						if(corse == '1') {
+							message+= "Attention, la livraison en Corse engendre un coût et un délai supplémentaire.\n";
+						}
+	
+						/*if(entreprise == '1' && checkSamedi($("shippingDate").value)) {
+							message+= "Attention, la livraison le samedi en entreprise engendre un coût supplémentaire.";
+						}*/
+	
+						if(message != '') {
+							alert(message);
+						}
+
+						/*$("shippingDate").observe( 'change', function() {
+							if(entreprise == '1' && checkSamedi($("shippingDate").value)) {
+								alert('Attention, la livraison le samedi en entreprise engendre un coût supplémentaire.');
+							}
+						});*/
+					});
+					
+					//]]>
+					</script>
+                <?php else: ?>
+					<div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
+                <?php endif; ?>
+            </fieldset>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items to Ship') ?></h4>
+        </div>
+    </div>
+    <div id="ship_items_container">
+		    <?php echo $this->getItemsHtml() ?>
+    </div>
+</form>
