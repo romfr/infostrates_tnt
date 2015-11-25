@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
+    <!--
 	<default>
 		<reference name="head">			
 			<action method="addItem"><type>skin_js</type><script>js/tnt/jquery_162.js</script></action>
@@ -25,7 +26,6 @@
 	
 	<sales_order_view translate="label">
         <label>Customer My Account Order View</label>
-        <!--update handle="customer_account"/-->
         <reference name="my.account.wrapper">
             <block type="sales/order_info" as="info" name="sales.order.info" template="tnt/sales/order/info.phtml"/>
             <block type="sales/order_view" name="sales.order.view" template="tnt/sales/order/view.phtml">
@@ -50,4 +50,5 @@
             <label>Additional Product Info</label>
         </block>
     </sales_order_view>
+    -->
 </layout>

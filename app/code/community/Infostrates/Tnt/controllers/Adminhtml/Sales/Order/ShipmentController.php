@@ -1,6 +1,6 @@
 <?php
 require_once 'Mage/Adminhtml/controllers/Sales/Order/ShipmentController.php';
-class Infostrates_Tnt_Sales_Order_ShipmentController extends Mage_Adminhtml_Sales_Order_ShipmentController
+class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Sales_Order_ShipmentController
 {
 
     /**

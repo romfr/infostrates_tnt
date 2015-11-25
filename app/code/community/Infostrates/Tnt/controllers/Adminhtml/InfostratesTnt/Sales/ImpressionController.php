@@ -1,6 +1,6 @@
 <?php
 
-class Infostrates_Tnt_Sales_ImpressionController extends Mage_Adminhtml_Controller_Action
+class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Additional initialization
