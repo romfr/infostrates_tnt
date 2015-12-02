@@ -143,7 +143,7 @@ function tntRCafficheRelais(jData) {
 	tntRCjTable.append(
 			"<tr>"+
 				"<td colspan='5' class='tntRCBack2Communes'>"+
-					"<a href='javascript:window.parent.jQuery.superbox.close();'><img class='tntRCButton' src='" + pathToImages + "bt-Continuer.jpg'></a>" +
+					"<a href='javascript:window.parent.jQuery.prettyPhoto.close();'><img class='tntRCButton' src='" + pathToImages + "bt-Continuer.jpg'></a>" +
 				"</td>"+
 				"<td />"+
 			"</tr>");	

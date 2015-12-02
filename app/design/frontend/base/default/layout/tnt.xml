@@ -2,27 +2,26 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><script>js/tnt/jquery_162.js</script></action>
             <action method="addItem"><type>skin_js</type><script>js/tnt/tnt.js</script></action>
             <action method="addItem"><type>skin_js</type><script>js/tnt/jquery.superbox.js</script></action>
             <action method="addItem"><type>skin_css</type><name>css/tnt/tnt.css</name><params/></action>
             <action method="addItem"><type>skin_css</type><name>css/tnt/jquery.superbox.css</name><params/></action>
         </reference>
     </default>
-    <!--
+
     <checkout_onepage_index>
         <reference name="checkout.onepage.shipping_method">
             <action method="setTemplate"><template>tnt/onepage/shipping_method.phtml</template></action>
             <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="tnt/onepage/shipping_method/available.phtml" />
         </reference>
     </checkout_onepage_index>
-    
+
     <checkout_onepage_shippingmethod>
         <remove name="right"/>
         <remove name="left"/>
         <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="tnt/onepage/shipping_method/available.phtml" />
     </checkout_onepage_shippingmethod>
-    
+
     <sales_order_view translate="label">
         <label>Customer My Account Order View</label>
         <reference name="my.account.wrapper">
@@ -49,5 +48,4 @@
             <label>Additional Product Info</label>
         </block>
     </sales_order_view>
-    -->
 </layout>
