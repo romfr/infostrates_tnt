@@ -39,6 +39,5 @@
         <?php else: ?>
             <script type="text/javascript" src="js/tnt/relaisColis.js"></script>
         <?php endif; ?>
-        <script type="text/javascript" src="js/tnt/jquery.superbox.js"></script>
     </body>
 </html>
