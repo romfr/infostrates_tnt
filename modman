@@ -8,8 +8,6 @@ app/design/adminhtml/default/tnt app/design/adminhtml/default/tnt
 app/design/frontend/base/default/layout/tnt.xml app/design/frontend/base/default/layout/tnt.xml
 app/design/frontend/base/default/template/tnt app/design/frontend/base/default/template/tnt
 
-media/pdf_bt media/pdf_bt
-
 skin/frontend/base/default/css/tnt skin/frontend/base/default/css/tnt
 skin/frontend/base/default/images/tnt skin/frontend/base/default/images/tnt
 skin/frontend/base/default/js/tnt skin/frontend/base/default/js/tnt
