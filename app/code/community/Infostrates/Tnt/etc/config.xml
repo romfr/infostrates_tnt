@@ -62,19 +62,30 @@
         </sales>
         <fieldsets>
             <sales_copy_order_billing_address>
-                <tnt_infos_comp><to_order>*</to_order></tnt_infos_comp>
+                <tnt_infos_comp>
+                    <to_order>*</to_order>
+                </tnt_infos_comp>
             </sales_copy_order_billing_address>
             <sales_copy_order_shipping_address>
-                <tnt_infos_comp><to_order>*</to_order></tnt_infos_comp>
+                <tnt_infos_comp>
+                    <to_order>*</to_order>
+                </tnt_infos_comp>
             </sales_copy_order_shipping_address>
             <sales_convert_quote_address>
-                <tnt_infos_comp><to_order_address>*</to_order_address><to_customer_address>*</to_customer_address></tnt_infos_comp>        
+                <tnt_infos_comp>
+                    <to_order_address>*</to_order_address>
+                    <to_customer_address>*</to_customer_address>
+                </tnt_infos_comp>
             </sales_convert_quote_address>
             <sales_convert_order_address>
-                <tnt_infos_comp><to_quote_address>*</to_quote_address></tnt_infos_comp>
+                <tnt_infos_comp>
+                    <to_quote_address>*</to_quote_address>
+                </tnt_infos_comp>
             </sales_convert_order_address>
             <customer_address>
-                <tnt_infos_comp><to_quote_address>*</to_quote_address></tnt_infos_comp>
+                <tnt_infos_comp>
+                    <to_quote_address>*</to_quote_address>
+                </tnt_infos_comp>
             </customer_address>
         </fieldsets>
     </global>

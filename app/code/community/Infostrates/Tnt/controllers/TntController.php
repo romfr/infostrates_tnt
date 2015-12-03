@@ -95,9 +95,9 @@ class Infostrates_Tnt_TntController extends Mage_Core_Controller_Front_Action
             $address->setRegionId($regionid);
             $address->setPostcode($postcode);
             $address->setStreet(urldecode($shipping['street']));
-            $address->setCity(urldecode($shipping ['city']));
-            $address->setCompany(trim(urldecode($shipping ['description'])));
-            $address->setTntInfosComp(trim(urldecode($shipping ['info_comp'])));
+            $address->setCity(urldecode($shipping['city']));
+            $address->setCompany(trim(urldecode($shipping['description'])));
+            $address->setTntInfosComp(trim(urldecode($shipping['info_comp'])));
             $address->save();
             $current->setShippingAddress($address);
             $current->save();
