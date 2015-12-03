@@ -92,7 +92,7 @@ class Infostrates_Tnt_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Wid
         // Impression des étiquettes
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
              'label' => Mage::helper('sales')->__('Imprimer les étiquettes'),
-             'url' => $this->getUrl('tnt/sales_impression/printMass'),
+             'url' => $this->getUrl('adminhtml/infostratesTnt_sales_impression/printMass'),
         ));
 
         return $this;
