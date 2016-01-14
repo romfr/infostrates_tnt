@@ -56,6 +56,19 @@
 	width: 100%;
 }
 
+.tntRCBodySearch td:first-child {
+    width: 30% !important;
+}
+.tntRCBodySearch td:nth-child(2) {
+    width: 20%;
+}
+.tntRCBodySearch td:nth-child(2) input {
+    width: 95%;
+}
+.tntRCBodySearch td:last-child {
+    width: 37%;
+}
+
 .tntRCError {
 	background-color: #ff6600;
 	color: #ffffff;
@@ -91,10 +104,10 @@
 .tntRCWhite {
 	background-color: #ffffff;
 	border-width: 0px;
-	display: bloc;
+	display: block;
 	font-family: arial,helvetica,sans-serif;
 	font-size: 14pt;
-	width: 600px;
+	width: 100%;
 }
 
 .tntRCrelaisColis {
@@ -390,4 +403,34 @@ a:hover {
     font-family: verdana,sans-serif;
     font-size: 18px;
     margin-top: 40px;
+}
+
+@media screen and (max-width: 700px) {
+    #tntBodyContentSC {
+        font-size: 11px;
+    }
+    #tntB2CRelaisColis,
+    .tntB2CRelaisColis {        
+        width: 100%;
+    }
+    #promoRelaisColis {
+        position: relative;
+        clear: both;
+        padding-top: 20px;
+        top: 0;
+        width: 100%;
+        height: auto;
+        left: 0;
+        text-align: center;
+    }
+    #map_canvas {
+        display: none;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .tntRCBoutonLoupe {
+        display: none;
+    }
 }
