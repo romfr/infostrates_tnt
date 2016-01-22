@@ -45,4 +45,15 @@
     .pp_details {
         height: 36px;
     }
+    #comp_domicile div label,
+    #comp_domicile div input,
+    #comp_domicile div span {
+        width: 100%;
+    }
+    #comp_domicile div input {
+        margin-bottom: 5px;
+    }
+    #comp_domicile div span {
+        padding-top: 5px;
+    }
 }
