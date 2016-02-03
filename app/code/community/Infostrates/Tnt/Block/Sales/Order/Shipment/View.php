@@ -85,7 +85,7 @@ class Infostrates_Tnt_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Blo
 
     public function getPrintTntUrl()
     {
-        return $this->getUrl('tnt/sales_impression/print', array(
+        return $this->getUrl('adminhtml/infostratesTnt_sales_impression/print', array(
             'shipment_id' => $this->getShipment()->getId(),
         ));
     }
