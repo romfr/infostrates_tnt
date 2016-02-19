@@ -23,6 +23,9 @@
         
         foreach ($_shippingRateGroups as $code => $_rates): ?>
         <dt><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+        <?php if ($code == "socolissimo"): ?>
+            <img style="padding: 5px 0 15px;" src="<?php echo $this->getSkinUrl('images/tnt/colissimo-co.png'); ?>" alt="La poste colissimo" />
+        <?php endif; ?>
         <dd>
             <ul>
 <?php       $_sole = $_sole && count($_rates) == 1; 
