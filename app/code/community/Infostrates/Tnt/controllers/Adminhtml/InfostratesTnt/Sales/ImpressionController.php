@@ -129,4 +129,9 @@ class Infostrates_Tnt_Adminhtml_InfostratesTnt_Sales_ImpressionController extend
 
         return $this->_redirectReferer();
     }
+
+    public function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/tnt');
+    }
 }
