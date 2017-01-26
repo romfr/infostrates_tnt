@@ -357,7 +357,7 @@ function tntRCgetCommunesJSON() {
 	var ajaxUrl;
 	var ajaxData;
 	
-	ajaxUrl = "http://" + tntDomain + "/public/b2c/relaisColis/rechercheJson.do?code=" + tntRCcodePostal;
+	ajaxUrl = "https://" + tntDomain + "/public/b2c/relaisColis/rechercheJson.do?code=" + tntRCcodePostal;
 	ajaxData = "";
 	
 	$.ajax({
