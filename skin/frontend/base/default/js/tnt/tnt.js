@@ -13,7 +13,7 @@ function moreinfos(infos) {
 function radioCheck(){
     if ($('s_method_tnt_JD') && $("s_method_tnt_JD").checked){
         
-        $("tnt_cp").hide();
+        jQuery("#tnt_cp").hide();
         $("tnt_relais1").value = '';
         jQuery('#openRelais').click();
         $("tnt_pr").show();
@@ -22,7 +22,7 @@ function radioCheck(){
     } else {
        
        fetchVille($("city_url").value, 'villes');
-       $("tnt_cp").show();
+       jQuery("#tnt_cp").show();
        
        if ($('s_method_tnt_JZ') && $("s_method_tnt_JZ").checked){
            if($("tnt_pr")) { $("tnt_pr").hide(); }
