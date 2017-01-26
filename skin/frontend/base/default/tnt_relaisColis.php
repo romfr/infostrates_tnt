@@ -28,7 +28,7 @@
         <div id="map_canvas" class="exemplePresentation" style="width: 482px; height: 482px"></div>
         <script type="text/javascript" src="js/tnt/jquery.js"></script>
         <script type="text/javascript" src="js/tnt/jquery-ui.js"></script>
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 
         <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false): ?>
             <?php if (intval(substr($_SERVER['HTTP_USER_AGENT'], strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') + 5)) <= 8): ?>
