@@ -66,7 +66,7 @@ function tntRCgetRelaisColisJSON(commune)
 	var ajaxUrl;
 	var ajaxData;
 	
-	ajaxUrl = "http://" + tntDomain + "/public/b2c/relaisColis/loadJson.do?cp=" + tntRCcodePostal + "&commune=" + tntRCCommune;
+	ajaxUrl = "https://" + tntDomain + "/public/b2c/relaisColis/loadJson.do?cp=" + tntRCcodePostal + "&commune=" + tntRCCommune;
 	ajaxData = "";
 	
 	// Chargement de la liste de relais colis
@@ -357,7 +357,7 @@ function tntRCgetCommunesJSON() {
 	var ajaxUrl;
 	var ajaxData;
 	
-	ajaxUrl = "http://" + tntDomain + "/public/b2c/relaisColis/rechercheJson.do?code=" + tntRCcodePostal;
+	ajaxUrl = "https://" + tntDomain + "/public/b2c/relaisColis/rechercheJson.do?code=" + tntRCcodePostal;
 	ajaxData = "";
 	
 	$.ajax({
@@ -996,7 +996,7 @@ function switchFromTo(htmlContent) {
 
 function popup_roadmap() {
 	if($("#saisie").val() == "") return;
-	window.open("http://" + tntDomain + "/public/geolocalisation/print_roadmap.do?mode="+ $("#mode").val() +"&point_choisi="+ $("#point_choisi").val() +"&saisie="+ $("#saisie").val());
+	window.open("https://" + tntDomain + "/public/geolocalisation/print_roadmap.do?mode="+ $("#mode").val() +"&point_choisi="+ $("#point_choisi").val() +"&saisie="+ $("#saisie").val());
 }
 
 $().ready(tntB2CRelaisColis);

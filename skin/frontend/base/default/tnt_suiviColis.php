@@ -70,13 +70,26 @@ if (isset($_GET) && $_GET['bonTransport'] != '') {
 }
 ?>
 
+<?php
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        $siteUrl = "https://".$_SERVER['SERVER_NAME']."/";
+        $mode = "https";
+    } else {
+        $siteUrl = "http://".$_SERVER['SERVER_NAME']."/";
+        $mode = "http";
+    }
+    
+    $skinUrl = $siteUrl."skin/frontend/base/default/";
+?>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Suivi Colis</title>	
 		
-		<link rel="stylesheet" href="css/tnt/tntB2CSuiviColis.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $skinUrl; ?>css/tnt/tntB2CSuiviColis.css" type="text/css" />
 	</head>
 	<body>
 		<?php if (isset($_GET['suivi'])) {
@@ -87,12 +100,12 @@ if (isset($_GET) && $_GET['bonTransport'] != '') {
 		<input type="hidden" id="suivi" name="suivi" value="<?php echo $suivi; ?>" />
 		<div id="tntB2CSuiviColis"></div>
 		
-		<script type="text/javascript" src="js/tnt/jquery.js"></script>
-		<script type="text/javascript" src="js/tnt/swfobject.js"></script>
-		<script type="text/javascript" src="js/tnt/suiviColis.js"></script>
+		<script type="text/javascript" src="<?php echo $skinUrl; ?>js/tnt/jquery.js"></script>
+		<script type="text/javascript" src="<?php echo $skinUrl; ?>js/tnt/swfobject.js"></script>
+		<script type="text/javascript" src="<?php echo $skinUrl; ?>js/tnt/suiviColis.js"></script>
 		<script type="text/javascript">
 			function createEtape(etape) {
-    			swfobject.embedSWF("images/tnt/swf/banniere_TNT_"+etape+".swf", "myEtape", "482", "159", "9.0.0");
+    			swfobject.embedSWF("<?php echo $skinUrl; ?>images/tnt/swf/banniere_TNT_"+etape+".swf", "myEtape", "482", "159", "9.0.0");
     		}
     	</script>
 	</body>
