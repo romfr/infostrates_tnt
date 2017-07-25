@@ -66,7 +66,7 @@ function tntRCgetRelaisColisJSON(commune)
 	var ajaxUrl;
 	var ajaxData;
 	
-	ajaxUrl = "http://" + tntDomain + "/public/b2c/relaisColis/loadJson.do?cp=" + tntRCcodePostal + "&commune=" + tntRCCommune;
+	ajaxUrl = "https://" + tntDomain + "/public/b2c/relaisColis/loadJson.do?cp=" + tntRCcodePostal + "&commune=" + tntRCCommune;
 	ajaxData = "";
 	
 	// Chargement de la liste de relais colis
