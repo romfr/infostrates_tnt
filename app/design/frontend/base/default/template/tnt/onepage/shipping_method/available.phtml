@@ -92,11 +92,11 @@
                             $tmp_desc = explode('|||', $_rate->getMethodDescription());
                         } ?>
                         <div id="tnt_description_<?php echo $_rate->getCode(); ?>" style="display:block;" class="tnt_description">
-                            <img src="<?php echo $this->getSkinUrl("images/tnt/".$tmp_desc['2'], true); ?>" alt="<?php echo $_rate->getMethodTitle() ?>" style="float:left;margin-right:10px;" />
+                            <img src="<?php echo $this->getSkinUrl("images/tnt/".$tmp_desc['2'], array('secure' => true)); ?>" alt="<?php echo $_rate->getMethodTitle() ?>" style="float:left;margin-right:10px;" />
                             <span>
                                 <?php echo $tmp_desc['0']; ?>
 <?php                           if( $tmp_desc['1'] != '' ) { ?>
-                        &nbsp;<a href="<?php echo $this->getSkinUrl($tmp_desc['1'], true); ?>" rel="prettyPhoto" class="moreInfos">+ d'infos</a>
+                        &nbsp;<a href="<?php echo $this->getSkinUrl($tmp_desc['1'], array('secure' => true)); ?>" rel="prettyPhoto" class="moreInfos">+ d'infos</a>
 <?php                           } ?>
                             </span>
                             <div style="clear:both;"></div>
