@@ -1,8 +1,6 @@
 <?php
-
+include_once Mage::getModuleDir('controllers', 'LaPoste_Label') . DS . 'Adminhtml' . DS . 'Sales' . DS . 'Order' . DS . 'ShipmentController.php';
 if (class_exists('LaPoste_Label_Adminhtml_Sales_Order_ShipmentController', false)) {
-
-    require_once Mage::getModuleDir('controllers', 'LaPoste_Label') . DS . 'Adminhtml' . DS . 'Sales' . DS . 'Order' . DS . 'ShipmentController.php';
     class MiddleManClass extends LaPoste_Label_Adminhtml_Sales_Order_ShipmentController { }
 } else {
     require_once Mage::getModuleDir('controllers', 'Mage_Adminhtml') . DS . 'Sales' . DS . 'Order' . DS . 'ShipmentController.php';
@@ -363,7 +361,7 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
         }
     }
 
-    
+
     /**
      * Print label for one specific shipment
      *
@@ -451,12 +449,15 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
             foreach ($shipments as $shipment) {
                 $labelContent = $shipment->getShippingLabel();
                 if (!$labelContent) {
+                    Mage::log("yeah", null, "test.log");
                     continue;
                 }
                 if (is_file($labelContent) && preg_match('/(\.zpl|\.dpl)$/', $labelContent)) {
+                    Mage::log("yeah2", null, "test.log");
                     continue;
                 }
                 if (is_file($labelContent) && preg_match('/\.pdf$/', $labelContent)) {
+                    Mage::log("yeah3", null, "test.log");
                     $labelsContent[] = file_get_contents($labelContent);
 
                     $cn23 = $shipment->getShippingCn23();
@@ -471,6 +472,7 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
                         $labelsContent[] = $packingSlips->render();
                     }
                 } else {
+                    Mage::log("yeahbitch3", null, "test.log");
                     $labelsContent[] = $labelContent;
                 }
             }
