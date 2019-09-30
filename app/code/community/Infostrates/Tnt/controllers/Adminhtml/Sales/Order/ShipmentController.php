@@ -22,12 +22,24 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
         if (!$shipment) {
             return false;
         }
+
+        /** @var LaPoste_Label_Helper_Data $helper */
+        $helper = Mage::helper('laposte_label');
+
         $carrier = $shipment->getOrder()->getShippingCarrier();
-        if (!$carrier->isShippingLabelsAvailable()) {
+        $shipment->setPackages($this->getRequest()->getParam('packages'));
+
+        if ($carrier->isShippingLabelsAvailable()) {
+            $response = Mage::getModel('shipping/shipping')->requestToShipment($shipment);
+        } else if ($helper->isColissimoLabelAllowed($shipment->getOrder())) {
+            /** @var LaPoste_Label_Model_Label $label */
+            $label = Mage::getModel('laposte_label/label');
+            /** @var $request LaPoste_Label_Model_Shipment_Request */
+            $request = Mage::getModel('laposte_label/shipment_request');
+            $response = $label->doShipmentRequest($request->requestToShipment($shipment));
+        } else {
             return false;
         }
-        $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = Mage::getModel('shipping/shipping')->requestToShipment($shipment);
         if ($response->hasErrors()) {
             Mage::throwException($response->getErrors());
         }
@@ -36,41 +48,35 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
         }
         $labelsContent = array();
         $trackingNumbers = array();
+        $labelsFile = array();
         $info = $response->getInfo();
-
-        $_order = $shipment->getOrder();
-        $_shippingMethod = explode('_', $_order->getShippingMethod());
-
         foreach ($info as $inf) {
-            if (!empty($inf['tracking_number']) && !empty($inf['label_content'])) {
-
-                if($_shippingMethod[0] != 'tnt' && $_shippingMethod[0] != 'lengow')
-                {
-                    if (stripos($inf['label_content'], '%PDF-') === false) {
-                        $fileName = Mage::getBaseDir('base') . DS . 'var' . DS . 'export' . DS . 'labels' . DS . $inf['label_content'];
-                        $labelsContent[] = ($content = @file_get_contents($inf['label_content'])) ? $content : $inf['label_content'];
-                    } else {
-                        $fileName = $inf['label_content'];
-                        $labelsContent[] = $fileName;
-                    }
-                } else {
-                    $labelsContent[] = $inf['label_content'];
-                }
-
+            if (!empty($inf['tracking_number'])) {
                 $trackingNumbers[] = $inf['tracking_number'];
+            }
+            if (!empty($inf['label_content'])) {
+                $labelsContent[] = $inf['label_content'];
+            }
+            if (!empty($inf['label_file'])) {
+                $labelsFile[] = $inf['label_file'];
             }
         }
 
-        $outputPdf = $this->_combineLabelsPdf($labelsContent);
-        $shipment->setShippingLabel($outputPdf->render());
+        if (count($labelsFile)) {
+            $shipment->setShippingLabelFile(join(';', $labelsFile));
+        }
+        if (count($labelsContent)) {
+            $outputPdf = $this->_combineLabelsPdf($labelsContent);
+            $shipment->setShippingLabel($outputPdf->render());
+        }
         $carrierCode = $carrier->getCarrierCode();
         $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
                 $track = Mage::getModel('sales/order_shipment_track')
-                        ->setNumber($trackingNumber)
-                        ->setCarrierCode($carrierCode)
-                        ->setTitle($carrierTitle);
+                    ->setNumber($trackingNumber)
+                    ->setCarrierCode($carrierCode)
+                    ->setTitle($carrierTitle);
                 $shipment->addTrack($track);
             }
         }
@@ -118,8 +124,12 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
 
             $_order = $shipment->getOrder();
             $_shippingMethod = explode('_', $_order->getShippingMethod());
+
             //Expédition via TNT on créé une expé. et on récupère le tracking num via le WS.
             if ($_shippingMethod[0] == 'tnt') {
+
+                Mage::log("in", null, "testtest.log");
+
                 // On met en place les paramètres de la requète pour l'expédition
                 $send_city = $this->getConfigData('ville');
                 $rec_typeid = '';
@@ -350,6 +360,140 @@ class Infostrates_Tnt_Adminhtml_Sales_Order_ShipmentController extends MiddleMan
             $this->getResponse()->setBody($responseAjax->toJson());
         } else {
             $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));
+        }
+    }
+
+    
+    /**
+     * Print label for one specific shipment
+     *
+     * @override : print all file types (PDF, ZPL, DPL) for Colissimo Order
+     */
+    public function printLabelAction()
+    {
+        $shipment = $this->_initShipment();
+
+        /** @var LaPoste_Label_Helper_Data $helper */
+        $helper = Mage::helper('laposte_label');
+
+        if (!$helper->isColissimoLabelAllowed($shipment->getOrder())) {
+            Mage::unregister('current_shipment');
+            return parent::printLabelAction();
+        }
+
+        try {
+            $labelFile = $shipment->getShippingLabel();
+
+            if ($labelFile) {
+                /** @var Mage_Sales_Model_Order_Pdf_Shipment $pdfShipment */
+                $pdfShipment = Mage::getModel('sales/order_pdf_shipment');
+
+                $label = file_get_contents($labelFile);
+                if ($helper->getMergeShippingSlips() && preg_match('/\.pdf$/', $labelFile)) {
+                    $packingSlips = $pdfShipment->getPdf(array($shipment));
+                    $label = $helper->mergePdfFiles(array($packingSlips->render(), $label));
+                }
+
+                return $this->_prepareDownloadResponse(basename($labelFile), $label);
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $this->_getSession()
+                ->addError(Mage::helper('laposte_label')->__('An error occurred while creating shipping label.'));
+        }
+
+        $this->_redirect('*/sales_order_shipment/view', array(
+            'shipment_id' => $this->getRequest()->getParam('shipment_id')
+        ));
+    }
+
+    /**
+     * Batch print shipping labels for whole shipments.
+     * Push pdf document with shipping labels to user browser
+     *
+     * @override : Avoid to print ZPL and DPL in massaction + Merge Shipping Slips
+     *
+     * @return null
+     */
+    public function massPrintShippingLabelAction()
+    {
+        $request = $this->getRequest();
+        $ids = $request->getParam('order_ids');
+        $createdFromOrders = !empty($ids);
+        $shipments = null;
+        $labelsContent = array();
+        switch ($request->getParam('massaction_prepare_key')) {
+            case 'shipment_ids':
+                $ids = $request->getParam('shipment_ids');
+                array_filter($ids, 'intval');
+                if (!empty($ids)) {
+                    $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                        ->addFieldToFilter('entity_id', array('in' => $ids));
+                }
+                break;
+            case 'order_ids':
+                $ids = $request->getParam('order_ids');
+                array_filter($ids, 'intval');
+                if (!empty($ids)) {
+                    $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                        ->setOrderFilter(array('in' => $ids));
+                }
+                break;
+        }
+
+        /** @var LaPoste_Label_Helper_Data $helper */
+        $helper = Mage::helper('laposte_label');
+
+        if ($shipments && $shipments->getSize()) {
+            /** @var LaPoste_Label_Model_Sales_Order_Shipment $shipment */
+            foreach ($shipments as $shipment) {
+                $labelContent = $shipment->getShippingLabel();
+                if (!$labelContent) {
+                    continue;
+                }
+                if (is_file($labelContent) && preg_match('/(\.zpl|\.dpl)$/', $labelContent)) {
+                    continue;
+                }
+                if (is_file($labelContent) && preg_match('/\.pdf$/', $labelContent)) {
+                    $labelsContent[] = file_get_contents($labelContent);
+
+                    $cn23 = $shipment->getShippingCn23();
+                    if ($cn23) {
+                        $labelsContent[] = file_get_contents($cn23);
+                    }
+
+                    if ($helper->getMergeShippingSlips()) {
+                        /** @var Mage_Sales_Model_Order_Pdf_Shipment $pdfShipment */
+                        $pdfShipment = Mage::getModel('sales/order_pdf_shipment');
+                        $packingSlips = $pdfShipment->getPdf(array($shipment));
+                        $labelsContent[] = $packingSlips->render();
+                    }
+                } else {
+                    $labelsContent[] = $labelContent;
+                }
+            }
+        }
+
+        if ($helper->getMergeShippingSlips()) {
+            $labelsContent = array_reverse($labelsContent);
+        }
+
+        if (!empty($labelsContent)) {
+            $outputPdf = $this->_combineLabelsPdf($labelsContent);
+            $this->_prepareDownloadResponse('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
+            return;
+        }
+
+        if ($createdFromOrders) {
+            $this->_getSession()
+                ->addError(Mage::helper('sales')->__('There are no shipping labels related to selected orders.'));
+            $this->_redirect('*/sales_order/index');
+        } else {
+            $this->_getSession()
+                ->addError(Mage::helper('sales')->__('There are no shipping labels related to selected shipments.'));
+            $this->_redirect('*/sales_order_shipment/index');
         }
     }
 }
